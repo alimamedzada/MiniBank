@@ -5,17 +5,17 @@ import org.example.com.minibank.model.account.Account;
 import org.example.com.minibank.util.IdentifierUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Customer extends Person {
     private final String customerId;
-    private final ArrayList<Account> accounts = new ArrayList<>();
-    private final int accountCount = 0;
+    private final HashMap<String, Account> accounts = new HashMap<>();
     private String username;
     private String password;
 
     private String hashPassword(String password) {
-        return BCrypt.withDefaults().hashToString(10, this.password.toCharArray());
+        return BCrypt.withDefaults().hashToString(10, password.toCharArray());
     }
 
     public Customer(String name, String surname, int age, String AzeID, String username, String password) {
@@ -39,12 +39,8 @@ public class Customer extends Person {
         this.username = username;
     }
 
-    public ArrayList<Account> getAccounts() {
+    public HashMap<String, Account> getAccounts() {
         return accounts;
-    }
-
-    public int getAccountCount() {
-        return accountCount;
     }
 
     public String getCustomerId() {
@@ -52,11 +48,11 @@ public class Customer extends Person {
     }
 
     public void addAccount(Account account) {
-        accounts.add(account);
+        accounts.put(account.getAccountId(), account);
     }
 
     @Override
     public String toString() {
-        return super.toString() + " | Customer ID: " + customerId + " | Account count: " + accountCount;
+        return super.toString() + " | Customer ID: " + customerId;
     }
 }

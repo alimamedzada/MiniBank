@@ -3,6 +3,7 @@ C:\Users\Asus\Desktop\Java Marathon\MiniBank\MiniBankv1\src\main\java\org\exampl
 C:\Users\Asus\Desktop\Java Marathon\MiniBank\MiniBankv1\src\main\java\org\example\com\minibank\exception\InsufficientBalanceException.java
 C:\Users\Asus\Desktop\Java Marathon\MiniBank\MiniBankv1\src\main\java\org\example\com\minibank\exception\InvalidAccountException.java
 C:\Users\Asus\Desktop\Java Marathon\MiniBank\MiniBankv1\src\main\java\org\example\com\minibank\exception\InvalidAmountException.java
+C:\Users\Asus\Desktop\Java Marathon\MiniBank\MiniBankv1\src\main\java\org\example\com\minibank\exception\InvalidAuthenticationException.java
 C:\Users\Asus\Desktop\Java Marathon\MiniBank\MiniBankv1\src\main\java\org\example\com\minibank\exception\InvalidInterestException.java
 C:\Users\Asus\Desktop\Java Marathon\MiniBank\MiniBankv1\src\main\java\org\example\com\minibank\exception\WithdrawalLimitExceededException.java
 C:\Users\Asus\Desktop\Java Marathon\MiniBank\MiniBankv1\src\main\java\org\example\com\minibank\model\account\Account.java

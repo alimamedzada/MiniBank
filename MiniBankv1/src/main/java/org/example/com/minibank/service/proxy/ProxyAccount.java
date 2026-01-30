@@ -13,12 +13,12 @@ public class ProxyAccount implements AccountOperationsInter {
     }
 
     public void deposit(BigDecimal amount) {
-        System.out.println("LOG -> deposit is called: " + amount);
+//        System.out.println("LOG -> deposit is called: " + amount);
         realAccount.deposit(amount);
     }
 
     public void withdraw(BigDecimal amount) {
-        System.out.println("LOG -> withdraw  is called: " + amount);
+//        System.out.println("LOG -> withdraw  is called: " + amount);
         realAccount.withdraw(amount);
     }
 

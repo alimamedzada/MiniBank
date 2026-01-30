@@ -8,7 +8,7 @@ import org.example.com.minibank.util.InputUtil;
 public class CustomerServiceImpl implements CustomerServiceInter {
     public Customer createCustomer() {
         System.out.println("Welcome, Our MiniBank!");
-        System.out.println("Please, fill your Datas: ");
+        System.out.println("Please, fill your Data's: ");
         return new Customer(
                 InputUtil.requireName(),
                 InputUtil.requireSurname(),

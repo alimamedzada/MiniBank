@@ -26,6 +26,7 @@ public abstract class Account implements AccountOperationsInter {
 
     @Override
     public void deposit(BigDecimal amount) {
+
         if (amount.compareTo(BigDecimal.valueOf(0)) > 0) {
             balance = balance.add(amount);
 
@@ -52,6 +53,12 @@ public abstract class Account implements AccountOperationsInter {
     @Override
     public void showBalance() {
         System.out.println("Balance: " + balance);
+    }
+
+    public void showAllAccountsBalances() {
+
+        System.out.println("Account ID: " + accountId + "\033[3m" + "\u001B[1m" +
+                " | Balance: " + balance + " AZN" + "\u001B[0m" + "\033[0m");
     }
 
 

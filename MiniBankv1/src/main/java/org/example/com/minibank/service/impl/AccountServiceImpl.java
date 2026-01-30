@@ -4,13 +4,14 @@ import org.example.com.minibank.exception.BankException;
 import org.example.com.minibank.exception.InvalidAccountException;
 import org.example.com.minibank.model.account.Account;
 import org.example.com.minibank.model.account.CheckingAccount;
-import org.example.com.minibank.model.user.Customer;
 import org.example.com.minibank.model.account.SavingsAccount;
+import org.example.com.minibank.model.user.Customer;
 import org.example.com.minibank.service.inter.AccountServiceInter;
 import org.example.com.minibank.util.InputUtil;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class AccountServiceImpl implements AccountServiceInter {
     public void createAccount(Customer customer) {
@@ -31,31 +32,29 @@ public class AccountServiceImpl implements AccountServiceInter {
     }
 
     public Account findAccount(Customer customer, String accNum) {
-        ArrayList<Account> accounts = customer.getAccounts();
-        for (Account account : accounts) {
-            if (account != null) {
-                if (account.getAccountId().equals(accNum)) {
-                    return account;
-                }
-            }
+        Account account = customer.getAccounts().get(accNum);
+        if (account != null) {
+            return account;
         }
         throw new InvalidAccountException("Please, enter the account number correctly: " + accNum);
     }
 
     public Account getAccount(Customer customer) {
-        int accountCount = customer.getAccountCount();
-        ArrayList<Account> accounts = customer.getAccounts();
+        int accountCount = customer.getAccounts().size();
+        HashMap<String, Account> accounts = customer.getAccounts();
         try {
-            if (accountCount == 0) {
+            if (accounts.isEmpty()) {
                 throw new InvalidAccountException("Account is not found!");
             }
             if (accountCount == 1) {
-                return accounts.getFirst();
+                return accounts.values().stream().findFirst().get();
             }
             while (true) {
+                accounts.values().stream().filter(Objects::nonNull).
+                        forEach(System.out::println);
                 for (int i = 0; i < accounts.size(); i++) {
-                    if (accounts.get(i) != null)
-                        System.out.println("Account ID: " + accounts.get(i).getAccountId());
+                    if (accounts.get(String.valueOf(i)) != null)
+                        System.out.println("Account ID: " + accounts.get(String.valueOf(i)).getAccountId());
                 }
                 String num = InputUtil.requireText("Which account would you want to switch? ");
                 Account acc = findAccount(customer, num);
@@ -70,23 +69,20 @@ public class AccountServiceImpl implements AccountServiceInter {
 
     @Override
     public void showAccounts(Customer customer) {
-        ArrayList<Account> accounts = customer.getAccounts();
-        for (Account account : accounts) {
-            if (account != null)
-                System.out.println(account);
-        }
+        HashMap<String, Account> accounts = customer.getAccounts();
+        accounts.values().stream().filter(Objects::nonNull).forEach(System.out::println);
     }
 
     public void showAllAccountsBalance(Customer customer) {
-        ArrayList<Account> accounts = customer.getAccounts();
-        for (Account account : accounts) {
+        HashMap<String, Account> accounts = customer.getAccounts();
+        for (Account account : accounts.values()) {
             if (account != null) {
                 if (account instanceof CheckingAccount) {
                     System.out.print("CheckingAccount :  ");
                 } else if (account instanceof SavingsAccount) {
                     System.out.print("SavingsAccount  :  ");
                 }
-                System.out.println(account);
+                account.showAllAccountsBalances();
             }
         }
         if (accounts.isEmpty()) {
