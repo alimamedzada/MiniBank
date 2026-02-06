@@ -10,14 +10,14 @@ import org.example.com.minibank.service.inter.AccountServiceInter;
 import org.example.com.minibank.util.InputUtil;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class AccountServiceImpl implements AccountServiceInter {
+
     public void createAccount(Customer customer) {
         Account account;
-        int number = InputUtil.requireNumber(
-                "Please select your account type: \n 1. Checking Account + \n 2. Savings Account");
+        int number = InputUtil.requireNumber("Please select your account type: \n 1. Checking Account + \n 2. Savings Account");
         if (number == 1) {
             account = new CheckingAccount(BigDecimal.ZERO);
         } else if (number == 2) {
@@ -32,29 +32,23 @@ public class AccountServiceImpl implements AccountServiceInter {
     }
 
     public Account findAccount(Customer customer, String accNum) {
-        Account account = customer.getAccounts().get(accNum);
-        if (account != null) {
-            return account;
-        }
-        throw new InvalidAccountException("Please, enter the account number correctly: " + accNum);
+        return customer.getAccounts().stream().filter(Objects::nonNull).filter((a) -> a.getAccountId().equals(accNum)).findFirst().orElseThrow();
     }
 
     public Account getAccount(Customer customer) {
         int accountCount = customer.getAccounts().size();
-        HashMap<String, Account> accounts = customer.getAccounts();
+        List<Account> accounts = customer.getAccounts();
         try {
             if (accounts.isEmpty()) {
                 throw new InvalidAccountException("Account is not found!");
             }
             if (accountCount == 1) {
-                return accounts.values().stream().findFirst().get();
+                return accounts.stream().findFirst().get();
             }
             while (true) {
-                accounts.values().stream().filter(Objects::nonNull).
-                        forEach(System.out::println);
+                accounts.stream().filter(Objects::nonNull).forEach(System.out::println);
                 for (int i = 0; i < accounts.size(); i++) {
-                    if (accounts.get(String.valueOf(i)) != null)
-                        System.out.println("Account ID: " + accounts.get(String.valueOf(i)).getAccountId());
+                    if (accounts.get(i) != null) System.out.println("Account ID: " + accounts.get(i).getAccountId());
                 }
                 String num = InputUtil.requireText("Which account would you want to switch? ");
                 Account acc = findAccount(customer, num);
@@ -69,13 +63,13 @@ public class AccountServiceImpl implements AccountServiceInter {
 
     @Override
     public void showAccounts(Customer customer) {
-        HashMap<String, Account> accounts = customer.getAccounts();
-        accounts.values().stream().filter(Objects::nonNull).forEach(System.out::println);
+        List<Account> accounts = customer.getAccounts();
+        accounts.stream().filter(Objects::nonNull).forEach(System.out::println);
     }
 
     public void showAllAccountsBalance(Customer customer) {
-        HashMap<String, Account> accounts = customer.getAccounts();
-        for (Account account : accounts.values()) {
+        List<Account> accounts = customer.getAccounts();
+        for (Account account : accounts) {
             if (account != null) {
                 if (account instanceof CheckingAccount) {
                     System.out.print("CheckingAccount :  ");

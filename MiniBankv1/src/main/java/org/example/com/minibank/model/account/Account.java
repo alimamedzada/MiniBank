@@ -2,22 +2,30 @@ package org.example.com.minibank.model.account;
 
 import org.example.com.minibank.exception.InsufficientBalanceException;
 import org.example.com.minibank.exception.InvalidAmountException;
+import org.example.com.minibank.model.user.Customer;
 import org.example.com.minibank.service.inter.AccountOperationsInter;
 import org.example.com.minibank.util.IdentifierUtil;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public abstract class Account implements AccountOperationsInter {
+public class Account implements AccountOperationsInter {
     private final String accountId;
     private BigDecimal balance;
-    private final String createDate;
+    private final Date createDate;
 
     public Account(BigDecimal balance) {
         this.accountId = IdentifierUtil.generateAzerbaijanIBANId();
         this.balance = balance;
-        this.createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.createDate = new Date(System.currentTimeMillis());
+    }
+
+    public Account(String accountId, BigDecimal balance, Date createDate) {
+        this.accountId = accountId;
+        this.balance = balance;
+        this.createDate = createDate;
     }
 
     public String getAccountId() {
