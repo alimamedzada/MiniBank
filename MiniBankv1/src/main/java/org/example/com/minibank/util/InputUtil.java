@@ -1,10 +1,10 @@
 package org.example.com.minibank.util;
 
-import org.example.com.minibank.exception.InputValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
+import org.example.com.minibank.exception.InputValidationException;
 
 public class InputUtil {
 
@@ -27,91 +27,94 @@ public class InputUtil {
 
     public static String requireUsername() {
         while (true) {
-            String username = requireText("Enter username: ");
-
-            if (username == null || username.isBlank() || username.length() < 6) {
-                logger.warn("Your username cannot be less than 6 letters");
-                continue;
+            try {
+                String username = requireText("Enter username: ");
+                ValidationUtil.validateUsername(username);
+                return username;
+            } catch (InputValidationException ex) {
+                logger.warn(ex.getMessage());
+            } catch (Exception e) {
+                System.err.println("Please, inpout a valid username or password!");
+                new Scanner(System.in).nextLine();
             }
-
-            if (!username.matches("^(?!.*\\.{2})[a-zA-Z0-9._]{1,30}$")) {
-                logger.warn("Please, wouldn't write (..) or more than 30 characters in username");
-                continue;
-            }
-
-            return username;
         }
     }
 
     public static String requirePassword() {
         while (true) {
-            String password = requireText(("Enter password: "));
-            if (password == null || password.isBlank() || password.length() < 8) {
-                logger.warn("Your password cannot be less than 8 letters");
-                throw new InputValidationException("Your password cannot be less than 8 letters");
+            try {
+                String password = requireText(("Enter password: "));
+                ValidationUtil.validatePasswordStrength(password);
+                return password;
+            } catch (InputValidationException ex) {
+                logger.warn(ex.getMessage());
+            } catch (Exception e) {
+                System.err.println("Please, inpout a valid username or password!");
+                new Scanner(System.in).nextLine();
             }
-            if (!password.matches("^(?!.*\\.{2})[a-zA-Z0-9._]{1,30}$")) {
-                logger.warn("Please, wouldn't write (..) or more than 30 characters in password");
-                continue;
-            }
-            return password;
         }
     }
 
     public static String requireName() {
-        String name = requireText(("Enter name: "));
-        if (name == null || name.isBlank() || name.length() < 3) {
-            logger.warn("Your name cannot be less than 3 letters");
-            throw new InputValidationException("Your name cannot be less than 3 letters");
+        while (true) {
+            try {
+                String name = requireText(("Enter name: "));
+                ValidationUtil.validateName(name);
+                return name;
+            } catch (InputValidationException ex) {
+                logger.warn(ex.getMessage());
+            } catch (Exception e) {
+                System.err.println("Please, inpout a valid name!");
+                new Scanner(System.in).nextLine();
+            }
         }
-        if (!name.matches("[a-zA-Z]{3,20}+")) {
-            logger.warn("Only letters in name!");
-            throw new InputValidationException("Only letters in name!");
-        }
-        return name;
     }
 
     public static String requireSurname() {
-        String surname = requireText(("Enter surname: "));
-        if (surname == null || surname.isBlank() || surname.length() < 4) {
-            logger.warn("Your surname cannot be less than 3 letters");
-            throw new InputValidationException("Your surname cannot be less than 3 letters");
+        while (true) {
+            try {
+                String surname = requireText(("Enter surname: "));
+                ValidationUtil.validateSurname(surname);
+                return surname;
+            } catch (InputValidationException ex) {
+                logger.warn(ex.getMessage());
+            } catch (Exception e) {
+                System.err.println("Please, inpout a valid surname!");
+                new Scanner(System.in).nextLine();
+            }
         }
-        if (!surname.matches("[a-zA-Z]{3,}+")) {
-            logger.warn("Only letters in surname!");
-            throw new InputValidationException("Only letters in surname!");
-        }
-        return surname;
+
     }
 
     public static String requireAzeID() {
-        String azeId = requireText(("Enter AZE ID: ")).toUpperCase().trim();
-        String idPattern = "^([A-Z]{2}\\d{8}|AZE\\d{8})$";
-        if (!azeId.matches(idPattern)) {
-            logger.warn("incorrectly AzeID!");
-            throw new InputValidationException("incorrectly AzeID!");
-        }
+        while (true) {
+            try {
+                String azeId = requireText(("Enter AZE ID: ")).toUpperCase().trim();
+                ValidationUtil.validateAzeID(azeId);
+                return azeId;
+            } catch (InputValidationException e) {
+                logger.warn(e.getMessage());
+            } catch (Exception ex) {
+                System.err.println("Please enter a valid ID!");
+                new Scanner(System.in).nextLine();
 
-        return azeId;
+            }
+        }
     }
 
     public static int requireAge() {
         while (true) {
-            int age = requireNumber("Enter Age: ");
-            if (age < 0) {
-                logger.warn("Cannot enter a negative age!");
-                continue;
-            }
-            if (age < 18) {
-                logger.warn("It is impossible to open an account for minor under the age of 18!");
-                continue;
-            }
+            try {
+                int age = requireNumber("Enter Age: ");
+                ValidationUtil.validateAge(age);
+                return age;
+            } catch (InputValidationException e) {
+                logger.warn(e.getMessage());
 
-            return age;
+            } catch (Exception e) {
+                System.err.println("Please enter a valid number!");
+                new Scanner(System.in).nextLine();
+            }
         }
-//        if (!InputUtil.scanner.hasNextInt()) {
-//            scanner.nextLine();
-//            throw new InputValidationException("Only number!");
-//        }
     }
 }
