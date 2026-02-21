@@ -1,10 +1,19 @@
-package org.example.com.minibank.model.account;
+package org.example.com.minibank.entity;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import java.math.BigDecimal;
 import org.example.com.minibank.exception.WithdrawalLimitExceededException;
 
-import java.math.BigDecimal;
+@Entity
+@DiscriminatorValue("Savings")
 
-public class SavingsAccount extends Account {
+public class SavingsAccount extends Accounts {
+
+    public SavingsAccount() {
+        super();
+    }
+
     public SavingsAccount(BigDecimal balance) {
         super(balance);
     }

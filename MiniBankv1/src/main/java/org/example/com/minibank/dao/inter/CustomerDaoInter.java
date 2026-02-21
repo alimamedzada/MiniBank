@@ -1,22 +1,20 @@
 package org.example.com.minibank.dao.inter;
 
-import org.example.com.minibank.model.user.Customer;
+import org.example.com.minibank.entity.Customers;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 public interface CustomerDaoInter {
-    List<Customer> getAll() throws SQLException;
 
-    boolean addCustomer(Customer customer);
+    List<Customers> getAll() throws SQLException;
 
-    Customer getCustomer(ResultSet result) throws SQLException;
+    boolean addCustomer(Customers customer);
 
-    boolean deleteCustomer();
+    boolean deleteCustomer(int id);
 
-    boolean updateCustomer();
+    boolean updateCustomer(Customers customer);
 
-    Customer getCustomerByUsername(String id);
+    Customers getCustomerByUsername(String id);
 
 }

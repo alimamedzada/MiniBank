@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Scanner;
 
 public class InputUtil {
+
     private static final Logger logger = LoggerFactory.getLogger(InputUtil.class);
 
     public static String requireText(String question) {

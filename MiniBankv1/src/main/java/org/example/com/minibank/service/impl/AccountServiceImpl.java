@@ -2,21 +2,25 @@ package org.example.com.minibank.service.impl;
 
 import org.example.com.minibank.exception.BankException;
 import org.example.com.minibank.exception.InvalidAccountException;
-import org.example.com.minibank.model.account.Account;
-import org.example.com.minibank.model.account.CheckingAccount;
-import org.example.com.minibank.model.account.SavingsAccount;
-import org.example.com.minibank.model.user.Customer;
+import org.example.com.minibank.entity.Accounts;
+import org.example.com.minibank.entity.CheckingAccount;
+import org.example.com.minibank.entity.SavingsAccount;
+import org.example.com.minibank.entity.Customers;
 import org.example.com.minibank.service.inter.AccountServiceInter;
 import org.example.com.minibank.util.InputUtil;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import org.example.com.minibank.dao.impl.CustomerDaoImpl;
+import org.example.com.minibank.dao.inter.CustomerDaoInter;
 
 public class AccountServiceImpl implements AccountServiceInter {
 
-    public void createAccount(Customer customer) {
-        Account account;
+    CustomerDaoInter customerDao = new CustomerDaoImpl();
+
+    public void createAccount(Customers customer) {
+        Accounts account;
         int number = InputUtil.requireNumber("Please select your account type: \n 1. Checking Account + \n 2. Savings Account");
         if (number == 1) {
             account = new CheckingAccount(BigDecimal.ZERO);
@@ -27,17 +31,18 @@ public class AccountServiceImpl implements AccountServiceInter {
             account = new CheckingAccount(BigDecimal.ZERO);
         }
 
+        customerDao.updateCustomer(customer);
         customer.addAccount(account);
-        System.out.println("New account created: " + account.getAccountId());
+        System.out.println("New account created: " + account.getId());
     }
 
-    public Account findAccount(Customer customer, String accNum) {
-        return customer.getAccounts().stream().filter(Objects::nonNull).filter((a) -> a.getAccountId().equals(accNum)).findFirst().orElseThrow();
+    public Accounts findAccount(Customers customer, String accNum) {
+        return customer.getAccounts().stream().filter(Objects::nonNull).filter((a) -> a.getId().equals(accNum)).findFirst().orElseThrow();
     }
 
-    public Account getAccount(Customer customer) {
+    public Accounts getAccount(Customers customer) {
         int accountCount = customer.getAccounts().size();
-        List<Account> accounts = customer.getAccounts();
+        List<Accounts> accounts = customer.getAccounts();
         try {
             if (accounts.isEmpty()) {
                 throw new InvalidAccountException("Account is not found!");
@@ -48,10 +53,12 @@ public class AccountServiceImpl implements AccountServiceInter {
             while (true) {
                 accounts.stream().filter(Objects::nonNull).forEach(System.out::println);
                 for (int i = 0; i < accounts.size(); i++) {
-                    if (accounts.get(i) != null) System.out.println("Account ID: " + accounts.get(i).getAccountId());
+                    if (accounts.get(i) != null) {
+                        System.out.println("Account ID: " + accounts.get(i).getId());
+                    }
                 }
                 String num = InputUtil.requireText("Which account would you want to switch? ");
-                Account acc = findAccount(customer, num);
+                Accounts acc = findAccount(customer, num);
                 if (acc != null) {
                     return acc;
                 }
@@ -62,14 +69,14 @@ public class AccountServiceImpl implements AccountServiceInter {
     }
 
     @Override
-    public void showAccounts(Customer customer) {
-        List<Account> accounts = customer.getAccounts();
+    public void showAccounts(Customers customer) {
+        List<Accounts> accounts = customer.getAccounts();
         accounts.stream().filter(Objects::nonNull).forEach(System.out::println);
     }
 
-    public void showAllAccountsBalance(Customer customer) {
-        List<Account> accounts = customer.getAccounts();
-        for (Account account : accounts) {
+    public void showAllAccountsBalance(Customers customer) {
+        List<Accounts> accounts = customer.getAccounts();
+        for (Accounts account : accounts) {
             if (account != null) {
                 if (account instanceof CheckingAccount) {
                     System.out.print("CheckingAccount :  ");

@@ -1,7 +1,7 @@
 package org.example.com.minibank.util;
 
-import org.example.com.minibank.model.account.Account;
-import org.example.com.minibank.model.user.Customer;
+import org.example.com.minibank.entity.Accounts;
+import org.example.com.minibank.entity.Customers;
 import org.example.com.minibank.service.impl.AccountServiceImpl;
 import org.example.com.minibank.service.impl.AuthServiceImpl;
 import org.example.com.minibank.service.impl.CustomerServiceImpl;
@@ -26,13 +26,13 @@ public class MenuUtil {
                 case 1 -> {
                     String username = InputUtil.requireUsername();
                     String password = InputUtil.requirePassword();
-                    Customer loginCustomer = authService.login(username, password);
+                    Customers loginCustomer = authService.login(username, password);
                     if (loginCustomer != null) {
                         processMenu(loginCustomer);
                     }
                 }
                 case 2 -> {
-                    Customer registerCustomer = authService.register(customerService.createCustomer());
+                    Customers registerCustomer = authService.register(customerService.createCustomer());
                     processMenu(registerCustomer);
                 }
                 case 0 -> System.exit(0);
@@ -41,7 +41,7 @@ public class MenuUtil {
         }
     }
 
-    public static void processMenu(Customer customer) {
+    public static void processMenu(Customers customer) {
         while (true) {
             System.out.println("    1 →  createAccount()\n" +
                     "    2 →  showAccounts()\n" +
@@ -58,7 +58,7 @@ public class MenuUtil {
                 case 1 -> accountService.createAccount(customer);
                 case 2 -> accountService.showAccounts(customer);
                 case 3 -> {
-                    Account acc = accountService.getAccount(customer);
+                    Accounts acc = accountService.getAccount(customer);
                     if (acc == null) {
                         System.out.println("Your account does not exist. Please create a new account!");
                         accountService.createAccount(customer);
@@ -70,7 +70,7 @@ public class MenuUtil {
                 }
                 case 4 -> {
                     accountService.showAccounts(customer);
-                    Account acc = accountService.getAccount(customer);
+                    Accounts acc = accountService.getAccount(customer);
                     if (acc == null) {
                         System.out.println("Your account does not exist. Please create a new account!");
                         accountService.createAccount(customer);

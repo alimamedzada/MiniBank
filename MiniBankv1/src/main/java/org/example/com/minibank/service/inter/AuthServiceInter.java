@@ -1,9 +1,9 @@
 package org.example.com.minibank.service.inter;
 
-import org.example.com.minibank.model.user.Customer;
+import org.example.com.minibank.entity.Customers;
 
 public interface AuthServiceInter {
-    Customer register(Customer customer);
+    Customers register(Customers customer);
 
-    Customer login(String username, String password);
+    Customers login(String username, String password);
 }

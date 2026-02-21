@@ -1,12 +1,19 @@
-package org.example.com.minibank.model.account;
+package org.example.com.minibank.entity;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import java.math.BigDecimal;
 
-public class CheckingAccount extends Account {
+@Entity
+@DiscriminatorValue("Checking")
+public class CheckingAccount extends Accounts {
+
+    public CheckingAccount() {
+    }
+
     public CheckingAccount(BigDecimal balance) {
         super(balance);
     }
-
 
     @Override
     public void withdraw(BigDecimal ammount) {

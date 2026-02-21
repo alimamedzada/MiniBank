@@ -1,14 +1,14 @@
 package org.example.com.minibank.service.proxy;
 
-import org.example.com.minibank.model.account.Account;
+import org.example.com.minibank.entity.Accounts;
 import org.example.com.minibank.service.inter.AccountOperationsInter;
 
 import java.math.BigDecimal;
 
 public class ProxyAccount implements AccountOperationsInter {
-    private final Account realAccount;
+    private final Accounts realAccount;
 
-    public ProxyAccount(Account realAccount) {
+    public ProxyAccount(Accounts realAccount) {
         this.realAccount = realAccount;
     }
 

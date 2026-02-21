@@ -1,0 +1,2 @@
+2026-02-07 02:13:34 [main] WARN  o.e.com.minibank.util.InputUtil - Your username cannot be less than 6 letters
+2026-02-07 02:13:43 [main] WARN  o.e.com.minibank.util.InputUtil - Your password cannot be less than 8 letters

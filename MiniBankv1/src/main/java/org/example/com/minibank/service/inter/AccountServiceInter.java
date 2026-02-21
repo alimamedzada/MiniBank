@@ -1,17 +1,18 @@
 package org.example.com.minibank.service.inter;
 
-import org.example.com.minibank.model.account.Account;
-import org.example.com.minibank.model.user.Customer;
+import org.example.com.minibank.entity.Accounts;
+import org.example.com.minibank.entity.Customers;
 
 public interface AccountServiceInter {
+    
 
-   void createAccount(Customer customer);
+   void createAccount(Customers customer);
 
-   Account findAccount(Customer customer, String accNum);
+   Accounts findAccount(Customers customer, String accNum);
 
-   Account getAccount(Customer customer);
+   Accounts getAccount(Customers customer);
 
-   void showAccounts(Customer customer);
+   void showAccounts(Customers customer);
 
-   void showAllAccountsBalance(Customer customer);
+   void showAllAccountsBalance(Customers customer);
 }
