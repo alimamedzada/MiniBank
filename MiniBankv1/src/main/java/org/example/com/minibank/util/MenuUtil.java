@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
 
 public class MenuUtil {
+
     private static final AuthServiceImpl authService = new AuthServiceImpl();
     private static final CustomerServiceImpl customerService = new CustomerServiceImpl();
     private static final AccountServiceImpl accountService = new AccountServiceImpl();
@@ -19,8 +20,8 @@ public class MenuUtil {
 
     public static void showEntryMenu() {
         while (true) {
-            System.out.println("    1 →  Login\n" +
-                    "    2 →  Register");
+            System.out.println("    1 →  Login\n"
+                    + "    2 →  Register");
             int entryMenu = InputUtil.requireNumber("Please, choose: ");
             switch (entryMenu) {
                 case 1 -> {
@@ -32,10 +33,11 @@ public class MenuUtil {
                     }
                 }
                 case 2 -> {
-                    Customers registerCustomer = authService.register(customerService.createCustomer());
+                    Customers registerCustomer = authService.register(customerService.fillCustomerData());
                     processMenu(registerCustomer);
                 }
-                case 0 -> System.exit(0);
+                case 0 ->
+                    System.exit(0);
             }
 
         }
@@ -43,20 +45,22 @@ public class MenuUtil {
 
     public static void processMenu(Customers customer) {
         while (true) {
-            System.out.println("    1 →  createAccount()\n" +
-                    "    2 →  showAccounts()\n" +
-                    "    3 →  deposit()\n" +
-                    "    4 →  withdraw()\n" +
-                    "    5 →  showBalance()\n" +
-                    "    6 →  Logout\n" +
-                    "    0 →  exit");
+            System.out.println("    1 →  createAccount()\n"
+                    + "    2 →  showAccounts()\n"
+                    + "    3 →  deposit()\n"
+                    + "    4 →  withdraw()\n"
+                    + "    5 →  showBalance()\n"
+                    + "    6 →  Logout\n"
+                    + "    0 →  exit");
             int menu = InputUtil.requireNumber("Please, choose: ");
             if (menu < 0 || menu > 6) {
                 System.out.println("Service doesn't exist! Please, choose correct service!");
             }
             switch (menu) {
-                case 1 -> accountService.createAccount(customer);
-                case 2 -> accountService.showAccounts(customer);
+                case 1 ->
+                    accountService.createAccount(customer);
+                case 2 ->
+                    accountService.showAccounts(customer);
                 case 3 -> {
                     Accounts acc = accountService.getAccount(customer);
                     if (acc == null) {
@@ -80,12 +84,14 @@ public class MenuUtil {
                                 requireDouble("please enter the amount you want to withdraw: ")));
                     }
                 }
-                case 5 -> accountService.showAllAccountsBalance(customer);
+                case 5 ->
+                    accountService.showAllAccountsBalance(customer);
                 case 6 -> {
                     log.info("logged out", customer.getUsername());
                     return;
                 }
-                case 0 -> System.exit(0);
+                case 0 ->
+                    System.exit(0);
             }
         }
     }

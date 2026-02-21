@@ -4,5 +4,8 @@ import org.example.com.minibank.entity.Customers;
 
 public interface CustomerServiceInter {
 
-    Customers createCustomer();
+    Customers fillCustomerData();
+
+    void addCustomer(Customers customer);
+
 }
