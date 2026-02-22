@@ -1,5 +1,6 @@
 package org.example.com.minibank.service.impl;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.example.com.minibank.dao.impl.CustomerDaoImpl;
 import org.example.com.minibank.dao.inter.CustomerDaoInter;
 import org.example.com.minibank.entity.Customers;
@@ -26,9 +27,19 @@ public class CustomerServiceImpl implements CustomerServiceInter {
     @Override
     public void addCustomer(Customers customer) {
         validateCustomersData(customer);
+
+        String rawPassword = customer.getPassword();
+        String hashed = hashPassword(rawPassword);
+        customer.setPassword(hashed);
+
         customerDao.addCustomer(customer);
     }
 
+    private String hashPassword(String password) {
+        return BCrypt.withDefaults().hashToString(10, password.toCharArray());
+    }
+
+    @Override
     public void validateCustomersData(Customers c) {
         ValidationUtil.validateName(c.getName());
         ValidationUtil.validateSurname(c.getSurname());

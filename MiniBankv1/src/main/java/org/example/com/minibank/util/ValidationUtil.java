@@ -35,8 +35,8 @@ public class ValidationUtil {
         if (password == null || password.isBlank() || password.length() < 8) {
             throw new InputValidationException("Your password cannot be less than 8 letters");
         }
-        if (!password.matches("^(?!.*\\.{2})[a-zA-Z0-9._]{1,30}$")) {
-            throw new InputValidationException("Please, wouldn't write (..) or more than 30 characters in password");
+        if (!password.matches("^[a-zA-Z0-9.]{8,65}$")) {
+            throw new InputValidationException("Password contains invalid characters or is too long!");
         }
     }
 
@@ -59,7 +59,7 @@ public class ValidationUtil {
     }
 
     public static void validateAzeID(String azeId) {
-        if (!azeId.matches("^([A-Z]{2}\\d{8}|AZE\\d{8})$")) {
+        if (!azeId.matches("(?i)^(AA\\d{8}|AZE\\d{8})$")) {
             throw new InputValidationException("incorrectly AzeID!");
         }
     }

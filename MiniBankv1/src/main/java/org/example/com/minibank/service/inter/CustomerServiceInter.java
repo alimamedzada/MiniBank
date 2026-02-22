@@ -8,4 +8,5 @@ public interface CustomerServiceInter {
 
     void addCustomer(Customers customer);
 
+    void validateCustomersData(Customers customer);
 }

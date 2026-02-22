@@ -45,23 +45,19 @@ public class Customers extends Person implements Serializable {
     public Customers() {
     }
 
-    private String hashPassword(String password) {
-        return BCrypt.withDefaults().hashToString(10, password.toCharArray());
-    }
-
     private Customers(String name, String surname, int age, String AzeID, String username, String password, String customerId, boolean isNew) {
         super(name, surname, age, AzeID);
 
         this.username = username;
         this.customerId = customerId;
-        this.password = isNew ? hashPassword(password) : password;
+        this.password = password;
     }
 
     private Customers(Accounts account, String name, String surname, int age, String AzeID, String username, String password, String customerId, boolean isNew) {
         super(name, surname, age, AzeID);
         this.username = username;
         this.customerId = customerId;
-        this.password = isNew ? hashPassword(password) : password;
+        this.password = password;
         if (account != null) {
             this.accounts.add(account);
         }
